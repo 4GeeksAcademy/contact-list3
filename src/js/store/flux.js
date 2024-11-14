@@ -12,7 +12,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			contacts: [],
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -37,9 +38,45 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				//reset the global store
 				setStore({ demo: demo });
+			},
+			//importar contacto
+			getContacts: async () => {
+				const resp = await fetch(process.env.BACKEND_URL + `agendas/manu`);
+				const data = await resp.json();
+				console.log(data);
+				setStore({ contacts: data.contacts })
+			},
+			createContact: async (newContact) => {
+				const myHeaders = new Headers();
+				myHeaders.append();
+				const resp = await fetch(process.env.BACKEND_URL + `agendas/manu/contacts`, {
+					method: 'POST',
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(newContact)
+				});
+				if (resp.ok) {
+					await getActions().getContacts()
+				}
+			},
+			deleteContact: async (id) => {
+				const resp = await fetch(process.env.BACKEND_URL + `agendas/manu/contacts/` + id, {
+					method: 'DELETE'
+				});
+				if (resp.ok) {
+					await getActions().getContacts()
+				}
+			},
+			updateContact: async (contact) => {
+				const resp = await fetch(process.env.BACKEND_URL + `agendas/manu/contacts/` + contact.id, {
+					method: 'PUT',
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify(contact)
+				});
+				if (resp.ok) {
+					await getActions().getContacts()
+				}
 			}
 		}
 	};
-};
-
-export default getState;
+}
+	export default getState;
