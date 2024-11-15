@@ -1,13 +1,15 @@
-import React from "react";
-import {useContext} from "react";
+import React, { useContext } from "react";
+import { useNavigate, Link } from 'react-router-dom';
 import { Context } from "../store/appContext";
 import "../../styles/home.css";
 
 
 export const ContactCard = (props) => {
-    const {actions} = useContext(Context);
+    const { actions } = useContext(Context);
+    const navigate = useNavigate();
+    
     return (
-        <div className="card p-2 mb-3 w-100" style={{"maxWidth": "540px"}}>
+        <div className="card p-2 mb-3 w-100" style={{ "maxWidth": "540px" }}>
             <div className="row g-0">
                 <div className="col-4 py-1">
                     <img src={"https://i.pravatar.cc/150?img=" + props.name} className="img-fluid rounded-circle" alt="..." />
@@ -28,9 +30,9 @@ export const ContactCard = (props) => {
                         className="fa-solid fa-trash fa-sm delete"
                     >
                     </i>
-                    <button 
-                        onClick={async () => {
-                            await actions.updateContact(props)
+                    <button
+                        onClick={() => {                           
+                            navigate("/create", { state: { contact: props } });
                         }}
                         className="btn btn-secondary"
                     >

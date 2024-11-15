@@ -1,9 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Context } from '../store/appContext';
 
-export const CreateContact = ({ contact }) => {
+export const CreateContact = () => {
+    const location = useLocation();
     const { actions } = useContext(Context);
+    const { contact } = location.state || {}
     const [newContact, setNewContact] = useState(contact || {});
     const navigate = useNavigate();
 
@@ -15,8 +17,8 @@ export const CreateContact = ({ contact }) => {
 
     const handleSave = async () => {
         if (contact && contact.id) {
+            await actions.updateContact(newContact);
         } else {
-            await actions.updateContact(contact);
             await actions.createContact(newContact);
         }
         navigate("/");
@@ -24,7 +26,7 @@ export const CreateContact = ({ contact }) => {
 
     return (
         <div className="container col-8 col-md-3">
-            <div className="mb-3">
+            <div className="mb-3 form-outline">
                 <label className="form-label"><b>Full Name</b></label>
                 <input 
                     onChange={(e) => setNewContact({ ...newContact, name: e.target.value })}
