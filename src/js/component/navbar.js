@@ -9,7 +9,7 @@ export const Navbar = () => {
 					<span className="navbar-brand text-center mb-0 h1">Contact list</span>
 				</Link>
 				<Link to="/create">
-						<button className="btn btn-success">Create contact</button>
+						<button className="btn btn-success shadow-none">Create contact</button>
 				</Link>
 			</div>
 		</nav>

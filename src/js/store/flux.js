@@ -47,8 +47,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ contacts: data.contacts })
 			},
 			createContact: async (newContact) => {
-				const myHeaders = new Headers();
-				myHeaders.append();
 				const resp = await fetch(process.env.BACKEND_URL + `agendas/manu/contacts`, {
 					method: 'POST',
 					headers: { "Content-Type": "application/json" },

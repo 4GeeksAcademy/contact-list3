@@ -1,21 +1,21 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Context } from '../store/appContext';
+import "../../styles/index.css";
 
 export const CreateContact = () => {
     const location = useLocation();
     const { actions } = useContext(Context);
-    const { contact } = location.state || {}
-    const [newContact, setNewContact] = useState(contact || {});
+    const contact = location.state?.contact || {};
+    const [newContact, setNewContact] = useState(contact);
+
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (contact) {
-            setNewContact(contact);
-        }
-    }, [contact]);
-
     const handleSave = async () => {
+        if (!newContact.name || !newContact.email || !newContact.phone || !newContact.address) {
+            alert("Some fields are missing"); 
+            return;
+        }
         if (contact && contact.id) {
             await actions.updateContact(newContact);
         } else {
@@ -26,51 +26,55 @@ export const CreateContact = () => {
 
     return (
         <div className="container col-8 col-md-3">
-            <div className="mb-3 form-outline">
+            <div className="mb-3">
                 <label className="form-label"><b>Full Name</b></label>
-                <input 
+                <input
                     onChange={(e) => setNewContact({ ...newContact, name: e.target.value })}
                     value={newContact.name || ""}
-                    type="text" 
-                    className="form-control" 
+                    type="text"
+                    className="form-control shadow-none"
                     placeholder="Full Name"
+                    required
                 />
             </div>
             <div className="mb-3">
-                <label><b>Email</b></label>
-                <input 
+                <label className="form-label"><b>Email</b></label>
+                <input
                     onChange={(e) => setNewContact({ ...newContact, email: e.target.value })}
                     value={newContact.email || ""}
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Email" 
+                    type="email"
+                    className="form-control shadow-none"
+                    placeholder="Email"
+                    required
                 />
             </div>
             <div className="mb-3">
-                <label><b>Phone</b></label>
-                <input 
+                <label className="form-label"><b>Phone</b></label>
+                <input
                     onChange={(e) => setNewContact({ ...newContact, phone: e.target.value })}
                     value={newContact.phone || ""}
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Phone" 
+                    type="number"
+                    className="form-control shadow-none"
+                    placeholder="Phone"
+                    required
                 />
             </div>
             <div className="mb-3">
-                <label><b>Address</b></label>
-                <input 
+                <label className="form-label"><b>Address</b></label>
+                <input
                     onChange={(e) => setNewContact({ ...newContact, address: e.target.value })}
                     value={newContact.address || ""}
-                    type="text" 
-                    className="form-control" 
-                    placeholder="Address" 
+                    type="text"
+                    className="form-control shadow-none"
+                    placeholder="Address"
+                    required
                 />
             </div>
             <div className="mb-2">
-                <button 
+                <button
                     onClick={handleSave}
-                    type="submit" 
-                    className="btn btn-primary form-control"
+                    type="submit"
+                    className="btn btn-primary form-control shadow-none"
                 >
                     Save
                 </button>

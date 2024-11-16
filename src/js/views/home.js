@@ -1,27 +1,28 @@
-import React from "react";
-import "../../styles/home.css";
-import { useContext, useState } from "react";
-import { Context } from "../store/appContext"
-import {ContactCard} from "../component/card"
+	import React from "react";
+	import "../../styles/home.css";
+	import { useContext} from "react";
+	import { Context } from "../store/appContext"
+	import { ContactCard } from "../component/card"
 
-export const Home = () => {
+	export const Home = () => {
 
-	const { actions, store } = useContext(Context);
+		const {store } = useContext(Context);
 
-	return (
-		<div className="container-fluid d-flex flex-column align-items-center mt-5">
-			{
-				store.contacts.map((item, index) => {
-					return <ContactCard 
-								key={index} 
-								name={item.name} 
-								phone={item.phone} 
-								id={item.id}
-								adress={item.address}
-							/>
-				})
-			}
-		</div>
-	)
-}
+		return (
+			<div className="container-fluid d-flex flex-column align-items-center mt-5">
+				{
+					store.contacts.map((item) => {
+						return <ContactCard
+							key={item.id}
+							name={item.name}
+							phone={item.phone}
+							id={item.id}
+							address={item.address}
+							email={item.email}
+						/>
+					})
+				}
+			</div>
+		)
+	}
 

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 import { Context } from "../store/appContext";
-import "../../styles/home.css";
+import "../../styles/index.css";
 
 
 export const ContactCard = (props) => {
@@ -9,35 +9,32 @@ export const ContactCard = (props) => {
     const navigate = useNavigate();
     
     return (
-        <div className="card p-2 mb-3 w-100" style={{ "maxWidth": "540px" }}>
+        <div className="contacto ps-3 mb-4 w-100" style={{ "maxWidth": "540px" }}>
             <div className="row g-0">
-                <div className="col-4 py-1">
-                    <img src={"https://i.pravatar.cc/150?img=" + props.name} className="img-fluid rounded-circle" alt="..." />
+                <div className="col-3 d-flex align-items-center ">
+                    <img src={"https://i.pravatar.cc/150?img=" + props.id} className="img-fluid rounded-circle"/>
                 </div>
-                <div className="col-6">
+                <div className="col-7">
                     <div className="card-body text-start m-2">
-                        <h5 className="card-title mb-3">{props.name}</h5>
-                        <p className="card-text">{props.phone}</p>
-                        <p className="card-text">{props.address}</p>
-                        <p className="card-text"><small className="text-body-secondary">Last updated 3 mins ago</small></p>
+                        <h5 className="card-title mb-3 ms-1">{props.name}</h5>
+                        <p className="m-1"><i className="fa-solid fa-phone me-2"></i>{props.phone}</p>
+                        <p className="m-1"><i className="fa-solid fa-envelope me-2"></i>{props.email}</p>
+                        <p className="m-1"><i className="fa-solid fa-location-dot me-2"></i> {props.address}</p>
                     </div>
                 </div>
-                <div className="col-2">
+                <div className="col mt-4">
+                    <i 
+                        onClick={() => { 
+                            navigate("/create", { state: { contact: props } }); 
+                        }} 
+                        className="fa-solid fa-pencil edit me-3"></i>
                     <i
                         onClick={async () => {
                             await actions.deleteContact(props.id)
                         }}
-                        className="fa-solid fa-trash fa-sm delete"
+                        className="fa-solid fa-trash fa-sm edit me-2"
                     >
                     </i>
-                    <button
-                        onClick={() => {                           
-                            navigate("/create", { state: { contact: props } });
-                        }}
-                        className="btn btn-secondary"
-                    >
-                        Edit
-                    </button>
                 </div>
             </div>
         </div>
