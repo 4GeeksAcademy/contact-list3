@@ -41,13 +41,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			//importar contacto
 			getContacts: async () => {
-				const resp = await fetch(process.env.BACKEND_URL + `agendas/manu`);
+				const resp = await fetch(`https://playground.4geeks.com/contact/agendas/manu`);
 				const data = await resp.json();
 				console.log(data);
 				setStore({ contacts: data.contacts })
 			},
+
+			createUser: async () => {
+				try {
+					const response = await fetch(`https://playground.4geeks.com/contact/agendas/manu`, {
+						method: "POST",
+						headers: { "Content-Type": "application/json"}
+					})
+					if (response.status == 201) {
+						getActions().getContacts()
+						return true
+					}
+				} catch (error) {
+					console.log(error)
+					return false
+				}
+			},
+
 			createContact: async (newContact) => {
-				const resp = await fetch(process.env.BACKEND_URL + `agendas/manu/contacts`, {
+				const resp = await fetch(`https://playground.4geeks.com/contact/agendas/manu/contacts`, {
 					method: 'POST',
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify(newContact)
@@ -56,8 +73,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					await getActions().getContacts()
 				}
 			},
+
+			
 			deleteContact: async (id) => {
-				const resp = await fetch(process.env.BACKEND_URL + `agendas/manu/contacts/` + id, {
+				const resp = await fetch(`https://playground.4geeks.com/contact/agendas/manu/contacts/` + id, {
 					method: 'DELETE'
 				});
 				if (resp.ok) {
@@ -65,7 +84,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			updateContact: async (contact) => {
-				const resp = await fetch(process.env.BACKEND_URL + `agendas/manu/contacts/` + contact.id, {
+				const resp = await fetch(`https://playground.4geeks.com/contact/agendas/manu/contacts/` + contact.id, {
 					method: 'PUT',
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify(contact)
