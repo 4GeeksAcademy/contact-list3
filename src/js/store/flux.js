@@ -42,9 +42,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			//importar contacto
 			getContacts: async () => {
 				const resp = await fetch(`https://playground.4geeks.com/contact/agendas/manu`);
+				if (resp.status == 404) {
+					getActions().createUser()
+					return
+				}
 				const data = await resp.json();
 				console.log(data);
-				setStore({ contacts: data.contacts })
+				setStore({ contacts: data.contacts})
 			},
 
 			createUser: async () => {
